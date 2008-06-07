@@ -69,11 +69,11 @@ package com.jeremyrodgers {
 	 *  ddt.allowDuplicates = false;
 	 *  // ddt.addEventListener( dd_tile_list.DUPLICATE_DENIED, dd_denied );
 	 *
-     * @see fl.controls.listClasses.TileList
-     *
+	 * @see fl.controls.listClasses.TileList
+	 *
 	 * @author Jeremy Rodgers 
-     * @langversion 3.0
-     * @playerversion Flash 9.0.28.0
+	 * @langversion 3.0
+	 * @playerversion Flash 9.0.28.0
 	 */
 	public class dd_tile_list extends TileList {
 
@@ -115,7 +115,7 @@ package com.jeremyrodgers {
 		 * and add listeners for MOUSE_UP and MOUSE_DOWN.
 		 *
 		 * @langversion 3.0
-         * @playerversion Flash 9.0.28.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		function dd_tile_list()
 		{
@@ -148,7 +148,7 @@ package com.jeremyrodgers {
 		 * should help for cases when something else happens on MOUSE_DOWN.
 		 *
 		 * @langversion 3.0
-         * @playerversion Flash 9.0.28.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function tl_mouse_down( _me:MouseEvent )
 		{
@@ -168,6 +168,9 @@ package com.jeremyrodgers {
 		
 		/**
 		 * Resets the MOUSE_MOVE drag start trigger.
+		 *
+		 * @langversion 3.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function tl_mouse_up( _me:MouseEvent )
 		{
@@ -181,6 +184,9 @@ package com.jeremyrodgers {
 		 * Listens for a MOUSE_MOVE event.
 		 * If there is a valid target to drag it is duplicated as the source cellRenderer class.
 		 * Event listener is removed, data is copied and drag is initialized.
+		 *
+		 * @langversion 3.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function tl_mouse_move( _me:MouseEvent )
 		{
@@ -205,6 +211,9 @@ package com.jeremyrodgers {
 		 * If dragRemovesItem is true the object is removed from this data provider.
 		 * Listeners are initialized, drag is started and the interval timer for drop
 		 * target detection is started.
+		 *
+		 * @langversion 3.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function di_start_drag( _ox:Number, _oy:Number )
 		{
@@ -234,6 +243,9 @@ package com.jeremyrodgers {
 		 * If so attempts to find the CellRenderer instance the drag item is over, if one
 		 * is found the drop target dd_tile_list is instructed to position its indicator
 		 * at the appropriate point.
+		 *
+		 * @langversion 3.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function di_mouse_move( _me:MouseEvent )
 		{
@@ -265,6 +277,9 @@ package com.jeremyrodgers {
 		 * same as this one (ie dd_tile_list) and the target tile list autoScroll
 		 * property is true then perform scrolling on the target tile list based on
 		 * its public settings.
+		 *
+		 * @langversion 3.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function tl_scroll( _te:TimerEvent )
 		{
@@ -310,6 +325,9 @@ package com.jeremyrodgers {
 		 * provider.  If one is found the drag item is spliced into the tile list data provider.  If
 		 * no tile list is found the drag item is removed and the source data provider either replaces
 		 * the item or not depending on the dropOffRemovesItem and dragRemovesItem settings.
+		 *
+		 * @langversion 3.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function di_stop_drag( _me:MouseEvent )
 		{
@@ -399,6 +417,9 @@ package com.jeremyrodgers {
 		 * Traverses the parent chain of the given object attempting to match the qualified
 		 * class name to the second parameter.  Returns the object if there is a match or null
 		 * if there is no match.
+		 *
+		 * @langversion 3.0
+		 * @playerversion Flash 9.0.28.0
 		 */
 		private function get_first_parent_with_classname( _o:Object, _s:String ):Object
 		{
