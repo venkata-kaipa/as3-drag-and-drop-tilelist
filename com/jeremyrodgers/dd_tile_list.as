@@ -106,7 +106,8 @@ package com.jeremyrodgers {
 		private var _scroll_bottom			:Number;			// Calculated
 		private var _scroll_top				:Number;			// Calculated
 		private var _drop_arrow				:dd_drop_arrow;
-
+		private var _compare_function		:Function;
+		
 		/**
 		 * Initialize the dd_tile_list.  Initialize the super class.
 		 * Detect and store the name of this class (ie. dd_tile_list).
@@ -260,10 +261,10 @@ package com.jeremyrodgers {
 					
 					var pt:Point;
 					if( (dx.right - dx.left ) / 2 > p2.x ) { // detect left or right drop.
-						var pt = new Point( dx.left, dx.top );
+						pt = new Point( dx.left, dx.top );
 					}
 					else {
-						var pt = new Point( dx.right, dx.top );
+						pt = new Point( dx.right, dx.top );
 					}
 					cr.localToGlobal( pt );
 					tl.arrowPosition = pt;
@@ -441,6 +442,9 @@ package com.jeremyrodgers {
 		
 		public function checkDuplicate( _o:Object, _tl:Object ):Boolean
 		{
+			if( _compare_function is Function ) {
+				return _compare_function( _o, _tl );
+			}
 			var dp:Array = _tl.dataProvider.toArray();
 			if( dp.indexOf( _o ) > -1 ) {
 				return true;
@@ -482,6 +486,10 @@ package com.jeremyrodgers {
 		public function get cellRenderer():Object
 		{
 			return _cellRenderer;
+		}
+		public function set compareFunction( _f:Function ):void
+		{
+			_compare_function = _f;
 		}
 		
 		
