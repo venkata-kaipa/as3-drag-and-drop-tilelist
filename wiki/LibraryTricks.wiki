@@ -1,0 +1,17 @@
+#summary How to use both TileList and dd_tile_list in the same project using stage instances.
+#labels Phase-Implementation
+
+= Introduction =
+
+Using folders in the library it is possible to have two TileList components on the stage each with different linkages.
+
+
+= Details =
+
+You need to change the component linkage in the Library for TileList from fl.controls.TileList to com.jeremrodgers.dd_tile_list, otherwise you'll have to instantiate the dd_tile_list through code.
+
+You can have 2 TileList components in your library, each with a different Class definition.  Make sure to put one in a folder then drag another TileList from the Component window to the Stage, not the library.
+
+Here is a screenshot of what your library would look like in this case.  In this way you can still use both dd_tile_list and TileList in the same FLA using stage instances.
+
+http://jeremyrodgers.com/dd_tile_list/TileList-Library-Example.gif
