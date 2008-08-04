@@ -1,4 +1,4 @@
-#summary How to use both !TileList and dd_tile_list in the same project using stage instances.
+#summary How to use both TileList and dd_tile_list in the same project using stage instances.
 #labels Phase-Implementation
 
 = Introduction =
