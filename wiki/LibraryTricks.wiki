@@ -3,15 +3,15 @@
 
 = Introduction =
 
-Using folders in the library it is possible to have two !TileList components on the stage each with different linkages.
+Using folders in the library it is possible to have both a dd_tile_list and a regular !TileList component on the Stage simultaneously.
 
 
 = Details =
 
-You need to change the component linkage in the Library for !TileList from fl.controls.!TileList to com.jeremyrodgers.dd_tile_list, otherwise you'll have to instantiate the dd_tile_list through code.
-
-You can have 2 !TileList components in your library, each with a different class definition.  Make sure to put one in a folder then drag another !TileList from the Component window to the Stage, not the Library.
+Put the first TileList component you drag from the Component Panel to the Stage in a folder then drag another !TileList from the Component Panel to the Stage, not the Library.  Then change the component linkage of one or the other TileList components in the Library from fl.controls.!TileList to com.jeremyrodgers.dd_tile_list. 
 
 Here is a screenshot of what your library would look like in this case.  In this way you can still use both dd_tile_list and !TileList in the same FLA using stage instances.
 
 http://jeremyrodgers.com/dd_tile_list/TileList-Library-Example.gif
+
+Alternatively you can place the dd_tile_list and TileList components separately through code.  Compiled component is on the TODO list.
