@@ -405,6 +405,10 @@ package com.jeremyrodgers {
 				var dupe:Boolean;
 				if( tl && cr ) 
 				{
+					if (( _drag_removes_item ) && (tl!=this))
+					{
+						this.dispatchEvent( new Event( ITEM_REMOVED ) );  
+					}
 					var dx:Rectangle = cr.getBounds( tl );
 					var p2 = cr.globalToLocal( p3 );
 					
@@ -423,7 +427,10 @@ package com.jeremyrodgers {
 						if( tl._allow_duplicates ) 
 						{
 							tl.dataProvider.addItemAt( _ic.data, cr['listData'].index + lr );
-							tl.dispatchEvent( new Event( ITEM_ADDED ) );
+							if (tl!=this)
+							{
+								tl.dispatchEvent( new Event( ITEM_ADDED ) );
+							}
 							tl.scrollToIndex( cr['listData'].index + lr );
 						}
 						else
@@ -436,7 +443,10 @@ package com.jeremyrodgers {
 							else
 							{
 								tl.dataProvider.addItemAt( _ic.data, cr['listData'].index + lr );
-								tl.dispatchEvent( new Event( ITEM_ADDED ) );
+								if (tl!=this)
+								{
+									tl.dispatchEvent( new Event( ITEM_ADDED ) );
+								}
 								tl.scrollToIndex( cr['listData'].index + lr );
 							}
 						}
@@ -449,12 +459,19 @@ package com.jeremyrodgers {
 				}
 				else if( tl ) 
 				{
+					if (( _drag_removes_item ) && (tl!=this))
+					{
+						this.dispatchEvent( new Event( ITEM_REMOVED ) );  
+					}					
 					if( tl.canDropOn ) 
 					{
 						if( tl._allow_duplicates ) 
 						{
 							tl.dataProvider.addItem( _ic.data );
-							tl.dispatchEvent( new Event( ITEM_ADDED ) );
+							if (tl!=this)
+							{
+								tl.dispatchEvent( new Event( ITEM_ADDED ) );
+							}
 							tl.scrollToIndex( tl.dataProvider.length - 1);
 						}
 						else 
@@ -467,7 +484,10 @@ package com.jeremyrodgers {
 							else
 							{
 								tl.dataProvider.addItem( _ic.data );
-								tl.dispatchEvent( new Event( ITEM_ADDED ) );
+								if (tl!=this)
+								{
+									tl.dispatchEvent( new Event( ITEM_ADDED ) );
+								}
 								tl.scrollToIndex( tl.dataProvider.length - 1);
 							}
 						}
@@ -479,6 +499,10 @@ package com.jeremyrodgers {
 					{
 						super.dataProvider.addItemAt( _ic.data, _ic.data.index );
 						scrollToIndex( _ic.data.index );
+					}
+					else if ( _drop_off_removes_item && _drag_removes_item )
+					{
+						this.dispatchEvent( new Event( ITEM_REMOVED ) );  
 					}
 				}
 			}
