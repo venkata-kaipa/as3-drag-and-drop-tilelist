@@ -387,10 +387,14 @@ package com.jeremyrodgers {
 					}
 					if( ! cr && tl ) 
 					{
-						cr = get_first_parent_with_classname( ob, getQualifiedClassName( tl.cellRenderer ) );
-						if( cr == _drag_item ) 
+						var cr_tmp = get_first_parent_with_classname( ob, getQualifiedClassName( tl.cellRenderer ) );
+						if( cr_tmp == _drag_item )
 						{
 							cr = null;
+						}
+						else 
+						{
+							cr = cr_tmp;
 						}
 					}
 				}
