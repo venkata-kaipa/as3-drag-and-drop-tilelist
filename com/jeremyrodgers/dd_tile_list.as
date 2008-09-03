@@ -79,8 +79,9 @@ package com.jeremyrodgers {
 
 		/* Events */
 		public static var ITEM_ADDED				:String = "item_added";					// TODO: Custom event classes.
-		public static var ITEM_REMOVED				:String = "item_removed";				// TODO: Add this
+		public static var ITEM_REMOVED				:String = "item_removed";
 		public static var DUPLICATE_DENIED			:String = "duplicate_denied";
+		public static var LIST_REORDERED			:String = "list_reordered";
 		
 		/* Inspectable */
 		private var _can_drag_from					:Boolean = true;
@@ -151,7 +152,7 @@ package com.jeremyrodgers {
 		* @langversion 3.0
 		* @playerversion Flash 9.0.28.0
 		*/
-		private function tl_mouse_down( _me:MouseEvent )
+		private function tl_mouse_down( _me:MouseEvent ):void
 		{
 			if( _ic == null && !_dragging )
 			{
@@ -176,7 +177,7 @@ package com.jeremyrodgers {
 		* @langversion 3.0
 		* @playerversion Flash 9.0.28.0
 		*/
-		private function tl_mouse_up( _me:MouseEvent )
+		private function tl_mouse_up( _me:MouseEvent ):void
 		{
 			if( !_dragging ) 
 			{
@@ -193,7 +194,7 @@ package com.jeremyrodgers {
 		* @langversion 3.0
 		* @playerversion Flash 9.0.28.0
 		*/
-		private function tl_mouse_move( _me:MouseEvent )
+		private function tl_mouse_move( _me:MouseEvent ):void
 		{
 			if( _ic != null && !_dragging )
 			{
@@ -220,7 +221,7 @@ package com.jeremyrodgers {
 		* @langversion 3.0
 		* @playerversion Flash 9.0.28.0
 		*/
-		private function di_start_drag( _ox:Number, _oy:Number )
+		private function di_start_drag( _ox:Number, _oy:Number ):void
 		{
 			stage.addChild( _drag_item as Sprite );
 
@@ -253,14 +254,14 @@ package com.jeremyrodgers {
 		* @langversion 3.0
 		* @playerversion Flash 9.0.28.0
 		*/
-		private function di_mouse_move( _me:MouseEvent )
+		private function di_mouse_move( _me:MouseEvent ):void
 		{
 			var p3:Point = new Point( mouseX, mouseY );
 			p3 = this.localToGlobal( p3 );
-			var oup = stage.getObjectsUnderPoint( p3 );
+			var oup:Array = stage.getObjectsUnderPoint( p3 );
 
-			var tl, cr;
-			for each( var ob in oup )
+			var tl:Object, cr:Object;
+			for each( var ob:Object in oup )
 			{
 				if( ! tl ) 
 				{
@@ -268,7 +269,7 @@ package com.jeremyrodgers {
 				}
 				if( ! cr && tl ) 
 				{
-					var cr_tmp = get_first_parent_with_classname( ob, getQualifiedClassName( tl.cellRenderer ) );
+					var cr_tmp:Object = get_first_parent_with_classname( ob, getQualifiedClassName( tl.cellRenderer ) );
 					if( cr_tmp == _drag_item )
 					{
 						cr = null;
@@ -282,7 +283,7 @@ package com.jeremyrodgers {
 			if( tl && cr) 
 			{
 				var dx:Rectangle = cr.getBounds( tl );
-				var p2 = cr.globalToLocal( p3 );
+				var p2:Point = cr.globalToLocal( p3 );
 
 				var pt:Point;
 				if( (dx.right - dx.left ) / 2 > p2.x ) 
@@ -308,7 +309,7 @@ package com.jeremyrodgers {
 		* @langversion 3.0
 		* @playerversion Flash 9.0.28.0
 		*/
-		private function tl_scroll( _te:TimerEvent )
+		private function tl_scroll( _te:TimerEvent ):void
 		{
 			var pt:Point = new Point( mouseX, mouseY );
 			pt = this.localToGlobal( pt );
@@ -364,7 +365,7 @@ package com.jeremyrodgers {
 		* @langversion 3.0
 		* @playerversion Flash 9.0.28.0
 		*/
-		private function di_stop_drag( _me:MouseEvent )
+		private function di_stop_drag( _me:MouseEvent ):void
 		{
 			_ti.stop();
 			_drop_arrow.visible = false;
@@ -376,10 +377,10 @@ package com.jeremyrodgers {
 			{
 				var p3:Point = new Point( mouseX, mouseY );
 				p3 = this.localToGlobal( p3 );
-				var oup = stage.getObjectsUnderPoint( p3 );
+				var oup:Array = stage.getObjectsUnderPoint( p3 );
 
-				var tl, cr;
-				for each( var ob in oup ) 
+				var tl:Object, cr:Object;
+				for each( var ob:Object in oup ) 
 				{
 					if( ! tl ) 
 					{
@@ -387,7 +388,7 @@ package com.jeremyrodgers {
 					}
 					if( ! cr && tl ) 
 					{
-						var cr_tmp = get_first_parent_with_classname( ob, getQualifiedClassName( tl.cellRenderer ) );
+						var cr_tmp:Object = get_first_parent_with_classname( ob, getQualifiedClassName( tl.cellRenderer ) );
 						if( cr_tmp == _drag_item )
 						{
 							cr = null;
@@ -403,14 +404,14 @@ package com.jeremyrodgers {
 						tl.arrowVisibility = false;
 				}
 				var dupe:Boolean;
-				if( tl && cr ) 
+				if( tl && cr ) // Dropping on an existing CellRenderer.
 				{
-					if (( _drag_removes_item ) && (tl!=this))
+					if ( ( _drag_removes_item ) && ( tl != this ) )
 					{
 						this.dispatchEvent( new Event( ITEM_REMOVED ) );  
 					}
 					var dx:Rectangle = cr.getBounds( tl );
-					var p2 = cr.globalToLocal( p3 );
+					var p2:Point = cr.globalToLocal( p3 );
 					
 					var lr:int;
 					if( (dx.right - dx.left ) / 2 > p2.x )
@@ -431,6 +432,10 @@ package com.jeremyrodgers {
 							{
 								tl.dispatchEvent( new Event( ITEM_ADDED ) );
 							}
+							else 
+							{
+								tl.dispatchEvent( new Event( LIST_REORDERED ) );
+							}
 							tl.scrollToIndex( cr['listData'].index + lr );
 						}
 						else
@@ -447,6 +452,10 @@ package com.jeremyrodgers {
 								{
 									tl.dispatchEvent( new Event( ITEM_ADDED ) );
 								}
+								else 
+								{
+									tl.dispatchEvent( new Event( LIST_REORDERED ) );
+								}
 								tl.scrollToIndex( cr['listData'].index + lr );
 							}
 						}
@@ -457,7 +466,7 @@ package com.jeremyrodgers {
 						scrollToIndex( _ic.data.index );
 					}
 				}
-				else if( tl ) 
+				else if( tl ) // Dropping on the TileList itself.
 				{
 					if (( _drag_removes_item ) && (tl!=this))
 					{
@@ -471,6 +480,10 @@ package com.jeremyrodgers {
 							if (tl!=this)
 							{
 								tl.dispatchEvent( new Event( ITEM_ADDED ) );
+							}
+							else 
+							{
+								tl.dispatchEvent( new Event( LIST_REORDERED ) );
 							}
 							tl.scrollToIndex( tl.dataProvider.length - 1);
 						}
@@ -487,6 +500,10 @@ package com.jeremyrodgers {
 								if (tl!=this)
 								{
 									tl.dispatchEvent( new Event( ITEM_ADDED ) );
+								}
+								else 
+								{
+									tl.dispatchEvent( new Event( LIST_REORDERED ) );
 								}
 								tl.scrollToIndex( tl.dataProvider.length - 1);
 							}
@@ -508,6 +525,24 @@ package com.jeremyrodgers {
 			}
 			_dragging = false;
 			_ic = null;
+			stage.removeChild( _drag_item );
+		}
+		
+		/**
+		* Immediately halt operations and clean up resources.
+		*
+		* @langversion 3.0
+		* @playerversion Flash 9.0.28.0		
+		*/
+		public function halt():void
+		{
+			_ti.stop();
+			_dragging = false;
+			_ic = null;
+			_drop_arrow.visible = false;
+			_drag_item.stopDrag();
+			_drag_item.removeEventListener( MouseEvent.MOUSE_MOVE, di_mouse_move );
+			_drag_item.removeEventListener( MouseEvent.MOUSE_UP, di_stop_drag );
 			stage.removeChild( _drag_item );
 		}
 
@@ -600,7 +635,7 @@ package com.jeremyrodgers {
 		
 		// if true item can be dragged between dd_tile_list components, if false can just re-order within dd_tile_list.
 		[Inspectable(type="Boolean", defaultValue=true)]
-		public function set canDragFrom( _b:Boolean )
+		public function set canDragFrom( _b:Boolean ):void
 		{
 			_can_drag_from = _b;
 		}
@@ -611,7 +646,7 @@ package com.jeremyrodgers {
 		
 		// if true item is removed from list when dragged, if false item stays (pool).
 		[Inspectable(type="Boolean", defaultValue=true)]
-		public function set dragRemovesItem( _b:Boolean )
+		public function set dragRemovesItem( _b:Boolean ):void
 		{
 			_drag_removes_item = _b;
 		}
@@ -622,7 +657,7 @@ package com.jeremyrodgers {
 		
 		// if _drop_off_removes_item is true and this is true it will remove the item from the list. if _drop_off_removes_item is false this does nothing
 		[Inspectable(type="Boolean", defaultValue=false)]
-		public function set dropOffRemovesItem( _b:Boolean )
+		public function set dropOffRemovesItem( _b:Boolean ):void
 		{
 			_drop_off_removes_item = _b;
 		}
@@ -633,7 +668,7 @@ package com.jeremyrodgers {
 		
 		// if true dd_tile_list will accept an item from another dd_tile_list (reordering within component always works).
 		[Inspectable(type="Boolean", defaultValue=true)]
-		public function set canDropOn( _b:Boolean )
+		public function set canDropOn( _b:Boolean ):void
 		{
 			_can_drop_on = _b;
 		}
@@ -644,7 +679,7 @@ package com.jeremyrodgers {
 		
 		// whether the target of the drop allows duplicates to be added (based on the TileListData).
 		[Inspectable(type="Boolean", defaultValue=true)]
-		public function set allowDuplicates( _b:Boolean )
+		public function set allowDuplicates( _b:Boolean ):void
 		{
 			_allow_duplicates = _b;
 		}
@@ -655,7 +690,7 @@ package com.jeremyrodgers {
 		
 		// sets the alpha value of the dragging item.
 		[Inspectable(type="Number", defaultValue=.83)]
-		public function set dragAlpha( _n:Number )
+		public function set dragAlpha( _n:Number ):void
 		{
 			_drag_alpha = _n;
 		}
@@ -666,7 +701,7 @@ package com.jeremyrodgers {
 		
 		// use auto scroll zones or not.
 		[Inspectable(type="Boolean", defaultValue=true)]
-		public function set autoScroll( _b:Boolean )
+		public function set autoScroll( _b:Boolean ):void
 		{
 			_auto_scroll = _b;
 		}
@@ -677,7 +712,7 @@ package com.jeremyrodgers {
 		
 		// sets how far inside from each edge of the component scrolling will occur.
 		[Inspectable(type="Number", defaultValue=.1)]
-		public function set scrollZone( _n:Number )
+		public function set scrollZone( _n:Number ):void
 		{
 			_scroll_zone = _n;
 			
@@ -693,7 +728,7 @@ package com.jeremyrodgers {
 
 		// speed : lower is faster. 1-10
 		[Inspectable(type="Number", defaultValue=4)]
-		public function set scrollSpeed( _n:Number )
+		public function set scrollSpeed( _n:Number ):void
 		{
 			if( _n < 1 ) 
 			{
