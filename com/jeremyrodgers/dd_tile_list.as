@@ -160,8 +160,7 @@ package com.jeremyrodgers {
 				{
 					_ic = new Object();
 					_ic.data = _me.target.data;
-					_ic.data.index = _me.target.listData.index;
-					_ic.data.listData = _me.target.listData;
+					_ic.listData = _me.target.listData;
 					addEventListener( MouseEvent.MOUSE_MOVE, tl_mouse_move );
 				}
 				catch( _e:Error )
@@ -170,7 +169,7 @@ package com.jeremyrodgers {
 				}
 			}
 		}
-		
+
 		/**
 		* Resets the MOUSE_MOVE drag start trigger.
 		*
@@ -185,7 +184,7 @@ package com.jeremyrodgers {
 				removeEventListener( MouseEvent.MOUSE_MOVE, tl_mouse_move );
 			}
 		}
-		
+
 		/**
 		* Listens for a MOUSE_MOVE event.
 		* If there is a valid target to drag it is duplicated as the source cellRenderer class.
@@ -201,16 +200,17 @@ package com.jeremyrodgers {
 				removeEventListener( MouseEvent.MOUSE_MOVE, tl_mouse_move );
 
 				_dragging = true;
-
+				
 				_drag_item = getDisplayObjectInstance( getStyleValue( "cellRenderer" ) ) as CellRenderer;
+				_drag_item.data = _ic.data;
 				_drag_item.setSize( columnWidth, rowHeight );
-				_drag_item.listData = _ic.data.listData
+				_drag_item.listData = _ic.listData;
 				_drag_item.drawNow();
 
 				di_start_drag( _me.target.mouseX, _me.target.mouseY );
 			}
 		}
-		
+
 		/**
 		* Attaches the drag item to the stage (TODO: make this configurable) and places
 		* it under the pointer at an offset equal to that at which it was picked up.
@@ -230,7 +230,7 @@ package com.jeremyrodgers {
 			
 			if( _drag_removes_item ) 
 			{
-				super.dataProvider.removeItemAt( _ic.data.index );
+				super.dataProvider.removeItemAt( _ic.listData.index );
 			}
 
 			_drag_item.addEventListener( MouseEvent.MOUSE_MOVE, di_mouse_move );
@@ -240,7 +240,6 @@ package com.jeremyrodgers {
 			_drag_item.alpha = _drag_alpha;
 
 			_ti.start();
-
 		}
 		
 		/**
@@ -462,8 +461,8 @@ package com.jeremyrodgers {
 					}
 					else if( ! _drop_off_removes_item && _drag_removes_item )
 					{
-						super.dataProvider.addItemAt( _ic.data, _ic.data.index );
-						scrollToIndex( _ic.data.index );
+						super.dataProvider.addItemAt( _ic.data, _ic.listData.index );
+						scrollToIndex( _ic.listData.index );
 					}
 				}
 				else if( tl ) // Dropping on the TileList itself.
@@ -514,8 +513,8 @@ package com.jeremyrodgers {
 				{
 					if( ! _drop_off_removes_item && _drag_removes_item )
 					{
-						super.dataProvider.addItemAt( _ic.data, _ic.data.index );
-						scrollToIndex( _ic.data.index );
+						super.dataProvider.addItemAt( _ic.data, _ic.listData.index );
+						scrollToIndex( _ic.listData.index );
 					}
 					else if ( _drop_off_removes_item && _drag_removes_item )
 					{
@@ -763,7 +762,27 @@ import flash.display.*;
 */
 class dd_drop_arrow extends Sprite
 {
+	
 	function dd_drop_arrow()
+	{
+		graphics.beginFill( 0x074456 );
+		graphics.lineStyle( 1, 0x0099CC32, 1, false, LineScaleMode.NONE, CapsStyle.SQUARE, JointStyle.BEVEL, 2 );
+		graphics.moveTo( 0, 0 );
+		graphics.lineTo( 48, 0 );
+		graphics.lineTo( 48, 64 );
+		graphics.lineTo( 0, 64 );
+		graphics.lineTo( 0, 0 );		
+		graphics.endFill();
+		graphics.beginFill( 0xFFFFFF );
+		graphics.lineStyle( 1, 0x0099CC, 1, false, LineScaleMode.NONE, CapsStyle.SQUARE, JointStyle.BEVEL, 2 );
+		graphics.moveTo( 0, 32 );
+		graphics.lineTo( 32, 16 );
+		graphics.lineTo( 32, 48 );
+		graphics.lineTo( 0, 32 );
+		graphics.endFill();		
+	}
+	
+	/*function dd_drop_arrow()
 	{
 		graphics.beginFill( 0x074456 );
 		graphics.lineStyle( 1, 0x0099CC, 1, false, LineScaleMode.NONE, CapsStyle.SQUARE, JointStyle.BEVEL, 2 );
@@ -772,5 +791,5 @@ class dd_drop_arrow extends Sprite
 		graphics.lineTo( 4.5, -8.5 );
 		graphics.lineTo( 0, 0 );
 		graphics.endFill();
-	}
+	}*/
 }
