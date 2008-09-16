@@ -763,7 +763,7 @@ import flash.display.*;
 class dd_drop_arrow extends Sprite
 {
 	
-	function dd_drop_arrow()
+	/*function dd_drop_arrow()
 	{
 		graphics.beginFill( 0x074456 );
 		graphics.lineStyle( 1, 0x0099CC32, 1, false, LineScaleMode.NONE, CapsStyle.SQUARE, JointStyle.BEVEL, 2 );
@@ -780,9 +780,9 @@ class dd_drop_arrow extends Sprite
 		graphics.lineTo( 32, 48 );
 		graphics.lineTo( 0, 32 );
 		graphics.endFill();		
-	}
+	}*/
 	
-	/*function dd_drop_arrow()
+	function dd_drop_arrow()
 	{
 		graphics.beginFill( 0x074456 );
 		graphics.lineStyle( 1, 0x0099CC, 1, false, LineScaleMode.NONE, CapsStyle.SQUARE, JointStyle.BEVEL, 2 );
@@ -791,5 +791,5 @@ class dd_drop_arrow extends Sprite
 		graphics.lineTo( 4.5, -8.5 );
 		graphics.lineTo( 0, 0 );
 		graphics.endFill();
-	}*/
+	}
 }
