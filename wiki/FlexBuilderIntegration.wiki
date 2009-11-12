@@ -8,7 +8,7 @@ Severity and Description        Path    Resource        Location        Creation
 1017: defintion of baseclass TileList not found [translation]. DragDrop/src/com/jeremyrodgers  dd_tile_list.as line 78 1222794066718   2722
 }}}
 
-After importing a TileList via `import mx.controls.TileList;` I get 13 errors. Changing the import `fl.*` statements to `import mx.*`, I can reduce errors to 9 (`import mx.data.*;` still produces an error, of course). These errors are related to classes !CellRenderer and Scrollbar and its references.
+After importing a !TileList via `import mx.controls.TileList;` I get 13 errors. Changing the import `fl.*` statements to `import mx.*`, I can reduce errors to 9 (`import mx.data.*;` still produces an error, of course). These errors are related to classes !CellRenderer and Scrollbar and its references.
 
 Solution: add the attached `.swc`^1^ to your Flex Builder's library path. The link http://www.moock.org/blog/archives/000253.html explains how to in every detail.
 
