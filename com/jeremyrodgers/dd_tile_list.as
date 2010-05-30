@@ -215,8 +215,10 @@ package com.jeremyrodgers {
 		*/
 		private function tl_mouse_move( _me:MouseEvent ):void
 		{
-			if( _ic != null && !_dragging )
+			// wxa: begin ======
+			if( _ic != null && !_dragging && _ic.listData )
 			{
+			// wxa: end ======
 				removeEventListener( MouseEvent.MOUSE_MOVE, tl_mouse_move );
 
 				_dragging = true;
@@ -721,6 +723,12 @@ package com.jeremyrodgers {
 		{
 			_compare_function = _f;
 		}
+		// jmr: 27/05/2010: begin ======
+		public function get drag_item():DisplayObject
+		{
+			return _drag_item;
+		}
+		// jmr: 27/05/2010: end ======
 		// fpm: begin ======
 		public function get ic():Object {
 			return _ic;
