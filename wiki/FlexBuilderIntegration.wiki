@@ -1,4 +1,4 @@
-#summary How to use as3-drag-and-drop-tilelist with Flex Builder 3.
+#summary How to use as3-drag-and-drop-tilelist with Flex Builder 3. (swc)
 
 = Introduction =
 The problem is:
